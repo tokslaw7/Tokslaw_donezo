@@ -10,10 +10,13 @@ const verifyToken = (req, res, next) => {
   const token = req.headers.authorization?.split(' ')[1];
 
   // If no token is provided, respond with a 401 Unauthorized status
+  if (!token) {
+    return res.status(401).json({ error: 'No token provided' });
+  }
 
   try {
     // Verify the token using the secret stored in the environment variable
-    const decoded = jwt.verify(token, process.env.SUPABASE_JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     // Attach the decoded token payload (user information) to the request object
     req.user = decoded;

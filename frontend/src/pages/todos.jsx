@@ -22,8 +22,7 @@ export default function Todos() {
     queryFn: async () => {
       const axiosInstance = await getAxiosClient();
 
-      const {data} = await axiosInstance.get("http://localhost:8080/todos");
-      // const { data } = await axios.get("http://localhost:8080/todos")
+      const {data} = await axiosInstance.get("/todos");
 
       return data;
     }
@@ -34,7 +33,7 @@ export default function Todos() {
     mutationFn: async (newTodo) => {
       const axiosInstance = await getAxiosClient();
 
-      const {data} = await axiosInstance.post("http://localhost:8080/todos", newTodo);
+      const {data} = await axiosInstance.post("/todos", newTodo);
 
       return data;
     },
@@ -48,7 +47,7 @@ export default function Todos() {
     mutationFn: async (todoId) => {
       const axiosInstance = await getAxiosClient();
 
-      const {data} = await axiosInstance.put(`http://localhost:8080/todos/${todoId}/completed`);
+      const {data} = await axiosInstance.put(`/todos/${todoId}/completed`);
 
       return data;
     },
@@ -109,7 +108,7 @@ export default function Todos() {
                         placeholder="Type here"
                         className="input input-bordered w-full"
                         {...register("name")} />
-                    />
+                    
                   </label>
                   <label className="form-control w-full">
                     <div className="label">
@@ -120,7 +119,7 @@ export default function Todos() {
                         placeholder="Type here"
                         className="input input-bordered w-full"
                         {...register("description")} />
-                    />
+                   
                   </label>
                   <div className="modal-action">
                     <button type="submit" className="btn btn-primary">
@@ -139,36 +138,37 @@ export default function Todos() {
   }
 
 
-  function TodoItemList() {
+   function TodoItemList() {
     return (
-        <div className="w-lg h-sm flex column items-center justify-center gap-4">
-          {data.success && data.todos.length >= 1 && (
-              <ul className="flex column items-center justify-center gap-4">
-                {
-                  data.todos.map(todo => (
-                      <li className="inline-flex items-center gap-4">
-                        <div className="w-md">
-                          <h3 className="text-lg">
-                            {todo.name}
-                          </h3>
-                          <p className="text-sm">{todo.description}</p>
-                        </div>
-                        <div className="w-md">
-                          <label className="swap">
-                            <input type="checkbox" onClick={() => markAsCompleted(todo.id)}/>
-                            <div className="swap-on">
-                              Yes
-                            </div>
-                            <div className="swap-off">
-                              No
-                            </div>
-                          </label>
-                        </div>
-                      </li>
-                  ))
-                }
-              </ul>
-          )}</div>
+      <div className="w-lg h-sm flex column items-center justify-center gap-4">
+        {data.success && data.todos.length >= 1 && (
+          <ul className="flex column items-center justify-center gap-4">
+            {
+              data.todos.map(todo => (
+                // eslint-disable-next-line react/jsx-key
+                <li className="inline-flex items-center gap-4">
+                  <div className="w-md">
+                    <h3 className="text-lg">
+                      {todo.name}
+                    </h3>
+                    <p className="text-sm">{todo.description}</p>
+                  </div>
+                  <div className="w-md">
+                    <label className="swap">
+                      <input type="checkbox" onClick={() => markAsCompleted(todo.id)} />
+                      <div className="swap-on">
+                        Yes
+                      </div>
+                      <div className="swap-off">
+                        No
+                      </div>
+                    </label>
+                  </div>
+                </li>
+              ))
+            }
+          </ul>
+        )}</div>
     )
   }
 

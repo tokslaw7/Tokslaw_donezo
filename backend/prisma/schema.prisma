@@ -15,10 +15,11 @@ datasource db {
 }
 
 model Todo {
-  id        Int     @id @default(autoincrement())
-  name      String
-  completed Boolean @default(false)
-  userId    String
+  id          Int     @id @default(autoincrement())
+  name        String
+  description String?
+  completed   Boolean @default(false)
+  userId      String
 }
 
 model UserProfiles {

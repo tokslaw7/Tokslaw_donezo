@@ -1,0 +1,27 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    # Runtime secrets (DATABASE_URL, DIRECT_URL, JWT_SECRET, etc.) come from backend/.env
+    env_file:
+      - ./backend/.env
+    environment:
+      # Lock CORS to the frontend origin below; override in backend/.env if needed.
+      CORS_ORIGIN: ${FRONTEND_ORIGIN:-http://localhost:3000}
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        # Vite inlines these at build time. Point at the backend's public URL.
+        VITE_API_URL: ${VITE_API_URL:-http://localhost:8080}
+        VITE_SUPABASE_URL: ${VITE_SUPABASE_URL}
+        VITE_SUPABASE_ANON_KEY: ${VITE_SUPABASE_ANON_KEY}
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: unless-stopped

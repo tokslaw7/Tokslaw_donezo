@@ -1,0 +1,7 @@
+# Environment files (compose interpolation + secrets)
+.env
+.env.local
+
+# Editor / OS
+.idea/
+.DS_Store

@@ -6,8 +6,9 @@ const getAxiosClient = async () => {
     const currentSession = await supabase.auth.getSession();
 
     const instance = axios.create({
+        baseURL: import.meta.env.VITE_API_URL,
         headers: {
-            Authorization: `Bearer ${currentSession.data.session.access_token}`,
+            Authorization: `Bearer ${currentSession.data.session?.access_token}`,
         },
     });
 
